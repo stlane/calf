@@ -6,7 +6,8 @@ calf_internal <- function(data,
                           targetVector = "binary",
                           margin = NULL,
                           optimize = "pval",
-                          reverse = TRUE){
+                          reverse = TRUE, 
+                          verbose = FALSE){
   # getting rid of global variable warning -------------------------- #
   x = NULL
   y = NULL
@@ -79,7 +80,18 @@ calf_internal <- function(data,
   bestCrit     <- min(allCrit, na.rm = TRUE)
   keepIndex    <- which.min(allCrit)
 
-
+ if (verbose == TRUE) {
+   if (optimize == "pval"){
+   cat("Selected:", keepMarkers, 
+       paste0("p value = ", round(bestCrit, digits = 15), "\n"))
+   } else if (optimize == "auc"){
+     cat("Selected:", keepMarkers, 
+         paste0("AUC = ", round((1/bestCrit), digits = 15), "\n"))
+   } else if (targetVector == "real")
+     cat("Selected:", keepMarkers, 
+         paste0("Correlation = ", round((1/bestCrit), digits = 15), "\n")) 
+ } 
+  
   # second loop to add another marker --------------------------------#
   if (nMarkers != 1){
     allCrit  <- numeric()
@@ -126,6 +138,18 @@ calf_internal <- function(data,
 
       if (length(keepMarkers) == nMarkers) continue <- FALSE
     }
+    
+    if (verbose == TRUE) {
+      if (optimize == "pval"){
+        cat("Selected:", keepMarkers[length(keepMarkers)], 
+            paste0("p value = ", round(bestCrit[length(bestCrit)], digits = 15), "\n"))
+      } else if (optimize == "auc"){
+        cat("Selected:", keepMarkers[length(keepMarkers)], 
+            paste0("AUC = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n"))
+      } else if (targetVector == "real")
+        cat("Selected:", keepMarkers[length(keepMarkers)], 
+            paste0("Correlation = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n")) 
+    } 
 
     # loop for third through nMarker ----------------------------------#
     while (continue == TRUE){
@@ -169,7 +193,19 @@ calf_internal <- function(data,
         bestCrit     <- append(bestCrit, min(allCrit, na.rm = TRUE))
         keepIndex    <- append(keepIndex, which.min(allCrit))
         continue     <- bestCrit[length(bestCrit)] < bestCrit[length(bestCrit)-1]
+        if (verbose == TRUE) {
+          if (optimize == "pval"){
+            cat("Selected:", keepMarkers[length(keepMarkers)], 
+                paste0("p value = ", round(bestCrit[length(bestCrit)], digits = 15), "\n"))
+          } else if (optimize == "auc"){
+            cat("Selected:", keepMarkers[length(keepMarkers)], 
+                paste0("AUC = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n"))
+          } else if (targetVector == "real")
+            cat("Selected:", keepMarkers[length(keepMarkers)], 
+                paste0("Correlation = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n")) 
+        } 
       }
+
 
       # insert function here to evaluate aucs NEW HERE 1.19.2017
       ###########################################################
@@ -191,15 +227,15 @@ calf_internal <- function(data,
         storeCrits <- numeric()
         for (j in 1:length(keepIndex)){
           if (optimize == "pval"){
-            crit <- t.test(rowSums(case[ ,keepIndex]) - case[ ,keepIndex[-j]],
-                           rowSums(ctrl[ ,keepIndex]) - ctrl[ ,keepIndex[-j]],
+            crit <- t.test(rowSums(case[ ,keepIndex]) - case[ ,keepIndex[j]],
+                           rowSums(ctrl[ ,keepIndex]) - ctrl[ ,keepIndex[j]],
                            var.equal = FALSE)$p.value
             storeCrits[j] <- crit
           }
 
           if (optimize == "auc"){
-            crit <- compute.auc(rowSums(case[ ,keepIndex]) - case[ ,keepIndex[-j]],
-                                rowSums(ctrl[ ,keepIndex]) - ctrl[ ,keepIndex[-j]])
+            crit <- compute.auc(rowSums(case[ ,keepIndex]) - case[ ,keepIndex[j]],
+                                rowSums(ctrl[ ,keepIndex]) - ctrl[ ,keepIndex[j]])
             crit <- 1/crit
             storeCrits[j] <- crit
           }
@@ -207,7 +243,7 @@ calf_internal <- function(data,
           if (targetVector == "real"){
             crit <- suppressWarnings(cor(real,
                                          rowSums(realMarkers[ ,keepIndex], na.rm = TRUE) -
-                                           realMarkers[ ,keepIndex[-j]] ,
+                                           realMarkers[ ,keepIndex[j]] ,
                                          use = "complete.obs"))
             crit <- 1/crit
             storeCrits[j] <- crit
@@ -221,6 +257,18 @@ calf_internal <- function(data,
           bestCrit[length(bestCrit)] <- min(storeCrits)
           keepIndex                  <- keepIndex[!keepIndex %in% drop]
           keepMarkers                <- keepMarkers[!keepMarkers %in% names(realMarkers)[drop]]
+          
+          if (verbose == TRUE) {
+            if (optimize == "pval"){
+              cat("Dropped:", names(realMarkers)[drop], 
+                  paste0("new p value = ", round(bestCrit[length(bestCrit)], digits = 15), "\n"))
+            } else if (optimize == "auc"){
+              cat("Dropped:", names(realMarkers)[drop], 
+                  paste0("new AUC = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n"))
+            } else if (targetVector == "real")
+              cat("Dropped:", names(realMarkers)[drop], 
+                  paste0("Correlation = ", round((1/bestCrit[length(bestCrit)]), digits = 15), "\n")) 
+          } 
         }
         # END PRUNING PROCEDURE ----------------------------------------------#
         # stop the search when it hits the max number of markers
@@ -229,6 +277,8 @@ calf_internal <- function(data,
     }
   }
 
+  if (verbose == TRUE) cat("\n")
+  
   indexNegPos[keepIndex] <- ifelse(keepIndex >= nVars, -1, 1)
   finalIndex   <- ifelse(keepIndex <= nVars, keepIndex, keepIndex - nVars)
   finalMarkers <- data.frame(names(case)[finalIndex], indexNegPos[keepIndex], check.names = FALSE)

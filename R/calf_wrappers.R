@@ -17,7 +17,8 @@ calf <- function(data,
                  targetVector,
                  margin,
                  optimize = "pval",
-                 reverse = FALSE){
+                 reverse = FALSE,
+                 verbose = FALSE){
   calf_internal(data,
                 nMarkers,
                 proportion = NULL,
@@ -26,7 +27,8 @@ calf <- function(data,
                 times      = 1,
                 margin = NULL,
                 optimize = optimize,
-                reverse = FALSE)
+                reverse = reverse,
+                verbose = verbose)
 }
 
 
@@ -53,7 +55,8 @@ calf_randomize <- function(data,
                            times      = 1,
                            margin     = NULL,
                            optimize   = "pval",
-                           reverse = FALSE){
+                           reverse = FALSE,
+                           verbose = FALSE){
   auc        <- numeric()
   finalBest  <- numeric()
   allMarkers <- character()
@@ -68,7 +71,8 @@ calf_randomize <- function(data,
                          times,
                          margin = margin,
                          optimize = optimize,
-                         reverse = reverse)
+                         reverse = reverse,
+                         verbose = verbose)
     auc[count] <- out$auc
     selection  <- out$selection
     markers    <- as.character(out$selection[,1])
@@ -112,7 +116,8 @@ calf_randomize <- function(data,
                     finalBest  = finalBest,
                     rocPlot    = rocPlot,
                     optimize   = optimize,
-                    reverse    = reverse)
+                    reverse    = reverse,
+                    verbose    = verbose)
   class(est) <- "calf_randomize"
   return(est)
 }
@@ -142,7 +147,8 @@ calf_subset <- function(data,
                         times      = 1,
                         margin = NULL,
                         optimize = "pval",
-                        reverse = FALSE){
+                        reverse = FALSE,
+                        verbose = FALSE){
   auc        <- numeric()
   allMarkers <- character()
   finalBest  <- numeric()
@@ -157,7 +163,8 @@ calf_subset <- function(data,
                          times,
                          margin = margin,
                          optimize = optimize,
-                         reverse = reverse)
+                         reverse = reverse,
+                         verbose = verbose)
     auc[count] <- out$auc
     selection  <- out$selection
     finalBest  <- append(finalBest, out$finalBest)
