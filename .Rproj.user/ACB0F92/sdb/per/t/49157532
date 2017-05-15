@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "Package: CALF\nType: Package\nTitle: Coarse Approximation Linear Function\nVersion: 0.1.4\nDate: 2017-04-21\nAuthor: Stephanie Lane [aut, cre], Clark Jeffries [aut], Diana Perkins [aut]\nMaintainer: Stephanie Lane <slane@unc.edu>\nDescription: Contains greedy algorithms for coarse approximation linear\n    functions.\nLicense: GPL-2\nImports:\n    ggplot2\nLazyData: TRUE\nRoxygenNote: 5.0.0\n",
+    "created" : 1492793208578.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2322171160",
+    "id" : "49157532",
+    "lastKnownWriteTime" : 1492793228,
+    "last_content_update" : 1492793228226,
+    "path" : "C:/Users/stlane/Dropbox/Current Consulting/clark jeffries/CALF/calf_git/DESCRIPTION",
+    "project_path" : "DESCRIPTION",
+    "properties" : {
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "dcf"
+}

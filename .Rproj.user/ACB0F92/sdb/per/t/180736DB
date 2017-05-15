@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#' @name CALF-package\n#' @aliases CALF-package\n#' @title Coarse Approximation Linear Function\n#' @description Forward selection linear regression greedy algorithm.\n#' @author {Stephanie Lane [aut, cre],\\cr\n#'    Clark Jeffries [aut], \\cr\n#'    Diana Perkins [aut],\n#' }\n#' Maintainer: Stephanie Lane \\email{slane@@unc.edu}\n#' @importFrom stats t.test cor\n#' @import ggplot2\n#' @keywords calf\n#' @details The Coarse Approximation Linear Function (CALF) algorithm is a type of forward selection\n#' linear regression greedy algorithm. Nonzero weights are restricted to the values +1 and -1.\n#' The number of nonzero weights used is limited by a parameter. Samples are controls (at least 2) and cases (at least 2).\n#' A data matrix consists of a distinguished column that labels every row as either a control (0) or a case (1).\n#' Other columns (at least one) contain real number marker measurement data.\n#' Another input is a limit (positive integer) on the number of markers that can be selected for use in a linear sum.\n#' The present version uses as a score of differentiation the two-tailed, two sample unequal variance Student t-test p-value.\n#' Thus, any real-valued function applied to all samples generates values for controls and cases that are used to calculate the score.\n#' CALF selects the one marker (first in case of tie) that best distinguishes controls from cases (score is smallest p-value).\n#' CALF then checks the limit. If the number of selected markers is the limit, CALF ends.\n#' Else, CALF seeks a second marker, if any, that best improves the score of the sum function generated\n#' by adding the newly selected marker to the previous markers with weight +1 or weight -1.\n#' The process continues until the limit is reached or until no additional marker can be included in the sum to improve the score.\nNULL\n",
+    "created" : 1492793114082.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3898232953",
+    "id" : "180736DB",
+    "lastKnownWriteTime" : 1465326463,
+    "last_content_update" : 1465326463,
+    "path" : "C:/Users/stlane/Dropbox/Current Consulting/clark jeffries/CALF/calf_git/R/CALF-package.R",
+    "project_path" : "R/CALF-package.R",
+    "properties" : {
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

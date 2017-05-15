@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "##\n#' Example data containing case and control data\n#'\n#' This data contains 136 marker variables for 68 individuals who are distinguished as case/control.\n#'\n#' @docType data\n#' @keywords datasets\n#' @name CaseControl\n#' @usage CaseControl\n#' @format A data frame with 136 marker variables and 68 individuals.\nNULL\n",
+    "created" : 1492793121102.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2620939965",
+    "id" : "EB9CD1E7",
+    "lastKnownWriteTime" : 1489006484,
+    "last_content_update" : 1489006484,
+    "path" : "C:/Users/stlane/Dropbox/Current Consulting/clark jeffries/CALF/calf_git/R/CALF-data.R",
+    "project_path" : "R/CALF-data.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
