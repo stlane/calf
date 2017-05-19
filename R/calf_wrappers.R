@@ -5,7 +5,6 @@
 #'@param targetVector Indicate "binary" for target vector with two options (e.g., case/control). Indicate "real" for target vector with real numbers.
 #'@param margin Real number from 0 to 1. Indicates the amount a potential marker must improve the target criterion (Pearson correlation or p-value) in order to add the marker.
 #'@param optimize Criteria to optimize if targetVector = "binary." Indicate "pval" to optimize the p-value corresponding to the t-test distinguishing case and control. Indicate "auc" to optimize the AUC.
-#'@param reverse Logical. Indicate TRUE to include procedure which drops each marker, one at a time, after each addition and checks whether dropping a previously added marker improves the target. Defaults to FALSE.
 #'@param verbose Logical. Indicate TRUE to print activity at each iteration to console. Defaults to FALSE.
 #'@return A data frame containing the chosen markers and their assigned weight (-1 or 1)
 #'@return The AUC value for the classification
@@ -18,7 +17,7 @@ calf <- function(data,
                  targetVector,
                  margin,
                  optimize = "pval",
-                 reverse = FALSE,
+                # reverse = FALSE,
                  verbose = FALSE){
   calf_internal(data,
                 nMarkers,
@@ -28,7 +27,7 @@ calf <- function(data,
                 times      = 1,
                 margin = NULL,
                 optimize = optimize,
-                reverse = reverse,
+               # reverse = reverse,
                 verbose = verbose)
 }
 
@@ -42,7 +41,6 @@ calf <- function(data,
 #'@param times Numeric. Indicates the number of replications to run with randomization.
 #'@param margin Real number from 0 to 1. Indicates the amount a potential marker must improve the target criterion (Pearson correlation or p-value) in order to add the marker.
 #'@param optimize Criteria to optimize if targetVector = "binary." Indicate "pval" to optimize the p-value corresponding to the t-test distinguishing case and control. Indicate "auc" to optimize the AUC.
-#'@param reverse Logical. Indicate TRUE to include procedure which drops each marker, one at a time, after each addition and checks whether dropping a previously added marker improves the target. Defaults to FALSE.
 #'@param verbose Logical. Indicate TRUE to print activity at each iteration to console. Defaults to FALSE.
 #'@return A data frame containing the chosen markers and their assigned weight (-1 or 1)
 #'@return The AUC value for the classification
@@ -57,7 +55,7 @@ calf_randomize <- function(data,
                            times      = 1,
                            margin     = NULL,
                            optimize   = "pval",
-                           reverse = FALSE,
+                           #reverse = FALSE,
                            verbose = FALSE){
   auc        <- numeric()
   finalBest  <- numeric()
@@ -73,7 +71,7 @@ calf_randomize <- function(data,
                          times,
                          margin = margin,
                          optimize = optimize,
-                         reverse = reverse,
+                        # reverse = reverse,
                          verbose = verbose)
     auc[count] <- out$auc
     selection  <- out$selection
@@ -118,7 +116,7 @@ calf_randomize <- function(data,
                     finalBest  = finalBest,
                     rocPlot    = rocPlot,
                     optimize   = optimize,
-                    reverse    = reverse,
+                   # reverse    = reverse,
                     verbose    = verbose)
   class(est) <- "calf_randomize"
   return(est)
@@ -134,7 +132,6 @@ calf_randomize <- function(data,
 #'@param times Numeric. Indicates the number of replications to run with randomization.
 #'@param margin Real number from 0 to 1. Indicates the amount a potential marker must improve the target criterion (Pearson correlation or p-value) in order to add the marker.
 #'@param optimize Criteria to optimize if targetVector = "binary." Indicate "pval" to optimize the p-value corresponding to the t-test distinguishing case and control. Indicate "auc" to optimize the AUC.
-#'@param reverse Logical. Indicate TRUE to include procedure which drops each marker, one at a time, after each addition and checks whether dropping a previously added marker improves the target. Defaults to FALSE.
 #'@param verbose Logical. Indicate TRUE to print activity at each iteration to console. Defaults to FALSE.
 #'@return A data frame containing the chosen markers and their assigned weight (-1 or 1)
 #'@return The AUC value for the classification. If multiple replications are requested, this will be a data.frame containing all AUCs across replications.
@@ -150,7 +147,7 @@ calf_subset <- function(data,
                         times      = 1,
                         margin = NULL,
                         optimize = "pval",
-                        reverse = FALSE,
+                       # reverse = FALSE,
                         verbose = FALSE){
   auc        <- numeric()
   allMarkers <- character()
@@ -166,7 +163,7 @@ calf_subset <- function(data,
                          times,
                          margin = margin,
                          optimize = optimize,
-                         reverse = reverse,
+                       #  reverse = reverse,
                          verbose = verbose)
     auc[count] <- out$auc
     selection  <- out$selection
